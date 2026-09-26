@@ -1,34 +1,24 @@
 import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
+import { useState , useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 
 
 export default function App() {
   return (
-    // <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-    //   <h1 className="text-2xl font-bold text-blue-500" >Welcome to our Full Stack Project</h1>
-    //   <p className="mt-4 text-lg text-gray-700"> Welcome Lets start building </p>
-    // </div>
-    // <>
-    //  <Welcome name="Abeer" age="28"/>
-    // <Welcome name="mysam" age="26"/>
-    // </>
-
     <>
       <Router>
-        <nav>
-          <Link to="/">Home</Link> | {" "}
-          <Link to="/about">About</Link> | {" "}
-          <Link to="/contact">Contact</Link>
-
-        </nav>
+        <Navbar/>
+      
 
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/contact" element={<Contact />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register/>}></Route>
+
 
         </Routes>
 
@@ -116,3 +106,32 @@ export default function App() {
 //     <button>I'm a button</button>
 //   );
 // }
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(()=>{
+ console.log(count);
+ 
+  },[count]
+
+  );
+
+  
+  function increase() {
+    setCount(prevCount => prevCount + 1)
+  }
+
+  function decrease() {
+    setCount(prevCount => prevCount - 1)
+  }
+
+  return (<div> <h1 className="textlg text-green-500">Count : {count}</h1>
+    <button className="button bg-green-500" onClick={increase}>+</button>
+    <button  className="button bg-red-500 mx-2" onClick={decrease}>-</button>
+
+  </div>
+  );
+
+}
+
