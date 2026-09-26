@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
 
 export default function Login() {
@@ -7,10 +7,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
-
-
-
-    
+    const naviagate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //prevent load page 
@@ -26,7 +23,10 @@ export default function Login() {
             localStorage.setItem("token", token);
 
             setMessage(response.data.message);
-         
+            naviagate('/dashboard')
+
+
+
 
 
         } catch (error) {
@@ -54,9 +54,9 @@ export default function Login() {
                         <path d="m2.5 4.375 3.875 2.906c.667.5 1.583.5 2.25 0L12.5 4.375" stroke="#6B7280" strokeOpacity=".6" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                         <path d="M11.875 3.125h-8.75c-.69 0-1.25.56-1.25 1.25v6.25c0 .69.56 1.25 1.25 1.25h8.75c.69 0 1.25-.56 1.25-1.25v-6.25c0-.69-.56-1.25-1.25-1.25Z" stroke="#6B7280" strokeOpacity=".6" strokeWidth="1.3" strokeLinecap="round" />
                     </svg>
-                    
+
                     <input
-                     
+
                         className="w-full outline-none bg-transparent py-2.5"
                         type="email"
                         value={email}
@@ -77,7 +77,7 @@ export default function Login() {
                         required />
                 </div>
                 <button type="submit" className="w-full mb-3 bg-indigo-500 hover:bg-indigo-600/90 transition py-2.5 rounded text-white font-medium">
-                   {loading ? "Submiting" : "Log In" }
+                    {loading ? "Submiting" : "Log In"}
                 </button>
 
                 {message && (<p>{message}</p>)}

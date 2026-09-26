@@ -1,26 +1,57 @@
-import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Link, Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
 import Home from './pages/Home';
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+
+function Layout() {
+  const location = useLocation();
 
 
+  //Show navbar in these pages
+  const showNavBar = ["/", "/login", "/register"].includes(location.pathname);
+
+  return (
+    <>
+      {showNavBar && <Navbar />}
+
+
+      <Routes>
+        {/* Puplic Routes */}
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+
+        {/* Protected Routes */}
+
+        <Route path="/dashboard" element=
+
+          {
+            <ProtectedRoutes>
+              <Dashboard />
+            </ProtectedRoutes>
+
+          }></Route>
+
+
+      </Routes>
+
+
+    </>)
+
+
+}
 
 export default function App() {
   return (
     <>
       <Router>
-        <Navbar/>
-      
-
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" element={<Register/>}></Route>
 
 
-        </Routes>
+        <Layout />
 
 
       </Router>
@@ -110,14 +141,14 @@ export default function App() {
 function Counter() {
   const [count, setCount] = useState(0);
 
-  useEffect(()=>{
- console.log(count);
- 
-  },[count]
+  useEffect(() => {
+    console.log(count);
+
+  }, [count]
 
   );
 
-  
+
   function increase() {
     setCount(prevCount => prevCount + 1)
   }
@@ -128,7 +159,7 @@ function Counter() {
 
   return (<div> <h1 className="textlg text-green-500">Count : {count}</h1>
     <button className="button bg-green-500" onClick={increase}>+</button>
-    <button  className="button bg-red-500 mx-2" onClick={decrease}>-</button>
+    <button className="button bg-red-500 mx-2" onClick={decrease}>-</button>
 
   </div>
   );
