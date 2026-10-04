@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
+import { toast } from "react-toastify";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -21,8 +22,11 @@ export default function Login() {
 
             const token = response.data.token;
             localStorage.setItem("token", token);
+            const user=response.data.user;
+            localStorage.setItem("user",JSON.stringify(user));
 
-            setMessage(response.data.message);
+            // setMessage(response.data.message);
+            toast.success(response.data.message);
             naviagate('/dashboard')
 
 
@@ -31,9 +35,13 @@ export default function Login() {
 
         } catch (error) {
             if (error.response && error.response.data.message) {
-                setMessage(error.response.data.message);
+                // setMessage(error.response.data.message);
+            toast.error(error.response.data.message);
+
             } else {
-                setMessage("something went wrong");
+                // setMessage("something went wrong");
+            toast.error("something went wrong");
+
 
             }
 
@@ -80,7 +88,7 @@ export default function Login() {
                     {loading ? "Submiting" : "Log In"}
                 </button>
 
-                {message && (<p>{message}</p>)}
+                {/* {message && (<p>{message}</p>)} */}
                 <p className="text-center mt-4">Don't have an account? <Link to="/register" className="text-blue-500 underline">Signup</Link></p>
             </form>
         </div>

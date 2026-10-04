@@ -13,6 +13,7 @@ import Tasks from "./pages/Tasks";
 import AddTasks from "./pages/AddTasks";
 import EditTasks from "./pages/EditTasks";
 import ProjectDetails from "./pages/PrpjectDetails";
+import { ToastContainer } from "react-toastify";
 
 function Layout() {
   const location = useLocation();
@@ -94,17 +95,18 @@ function Layout() {
           }></Route>
 
         <Route path="/projects/details/:id" element={
-   <ProtectedRoutes>
+          <ProtectedRoutes>
             <ProjectDetails />
           </ProtectedRoutes>
         }>
-       
+
 
         </Route>
 
 
       </Routes>
 
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar ></ToastContainer>
 
     </>)
 
