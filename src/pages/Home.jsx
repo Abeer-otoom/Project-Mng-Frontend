@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Home= React.memo(function Home(){
     return (
@@ -12,9 +13,8 @@ const Home= React.memo(function Home(){
                         MySQL. Stay productive, stay organized, and achieve more every day.
                     </p>
                     <div className="flex justify-center gap-2">
-                        <a href="" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105 ">Get Started Free</a>
-                        <a href="" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105  ">Login</a>
-
+                        <Link to="/register" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105 ">Get Started Free</Link>
+                        <Link to="/login" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105  ">Login</Link>
                     </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0">
