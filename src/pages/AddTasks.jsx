@@ -76,13 +76,17 @@ export default function AddTasks() {
                 }
             )
 
-            alert("Task Add successfully");
+            // alert("Task Add successfully");
+                        toast.success("Task Add successfully")
+            
             navigate('/tasks');
 
         }
         catch (error) {
             console.log("Error:", error);
-            alert("Error in Adding projects")
+            // alert("Error in Adding projects")
+                        toast.error("Error in Adding projects")
+
             
 
         }

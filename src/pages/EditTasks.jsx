@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function EditTasks() {
     const [title, setTitle] = useState("");
@@ -102,13 +103,15 @@ export default function EditTasks() {
                 }
             )
 
-            alert("Task Add successfully");
+            // alert("Task Add successfully");
+            toast.success("Task Add successfully")
             navigate('/tasks');
 
         }
         catch (error) {
             console.log("Error:", error);
-            alert("Error in Adding projects")
+            // alert("Error in Adding projects")
+            toast.error("Error in Adding projects")
             
 
         }

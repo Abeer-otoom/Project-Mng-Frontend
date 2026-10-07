@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function EditProject() {
 
@@ -65,13 +66,15 @@ export default function EditProject() {
                 }
             )
 
-            alert("Project update successfully");
+            // alert("Project update successfully");
+            toast.success("Project update successfully")
             navigate('/projects');
 
         }
         catch (error) {
             console.log("Error:", error);
-            alert("Error in update projects")
+            // alert("Error in update projects")
+            toast.error("Error in update projects")
             
 
         }

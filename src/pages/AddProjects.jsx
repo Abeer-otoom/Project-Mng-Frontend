@@ -2,6 +2,7 @@ import { useState } from "react";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function AddProject() {
     const [title, setTitle] = useState("");
@@ -31,13 +32,17 @@ export default function AddProject() {
                 }
             )
 
-            alert("Project Add successfully");
+            toast.success("Project Add successfully")
+
+            // alert("Project Add successfully");
             navigate('/projects');
 
         }
         catch (error) {
             console.log("Error:", error);
-            alert("Error in Adding projects")
+            // alert("Error in Adding projects")
+            toast.error("Error in Adding projects")
+
             
 
         }
