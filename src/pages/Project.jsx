@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Projects() {
 
@@ -68,14 +69,14 @@ export default function Projects() {
 
                 //remove the deleted fron Ui
                 setProjects(projects.filter((project)=>project.id !== id));
-            alert('Project Deleteing Succefully')
+            toast.success('Project Deleteing Succefully')
 
 
         }
         catch (error) {
             console.log("error delete data", error);
 
-            alert('Something went wrong with deleting the project')
+            toast.error('Something went wrong with deleting the project')
 
 
         }
