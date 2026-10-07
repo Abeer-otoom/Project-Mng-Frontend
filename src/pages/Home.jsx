@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Home= React.memo(function Home(){
+const Home = React.memo(function Home() {
     return (
         <div>
             <header className="relative bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 text-white">
@@ -13,8 +13,12 @@ const Home= React.memo(function Home(){
                         MySQL. Stay productive, stay organized, and achieve more every day.
                     </p>
                     <div className="flex justify-center gap-2">
-                        <Link to="/register" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105 ">Get Started Free</Link>
-                        <Link to="/login" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105  ">Login</Link>
+                        <Link to="/register" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105 ">
+                            Get Started Free
+                        </Link>
+                        <Link to="/login" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105  ">
+                            Login
+                        </Link>
                     </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0">
@@ -74,7 +78,7 @@ const Home= React.memo(function Home(){
                             projects.
                         </p>
                         <div className="flex justify-center gap-2">
-                            <a href="" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105 "> Create an Account</a>
+                            <Link to="/register" className="btn bg-white text-indigo-700 rounded-lg shadow-lg border-1 border-white p-2 hover:scale-105 "> Create an Account</Link>
 
                         </div>
                     </div>
