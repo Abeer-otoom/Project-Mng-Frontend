@@ -4,8 +4,10 @@ import DashboardLayout from "../components/DashboardLayout";
 import { FiShoppingCart } from "react-icons/fi";
 import { GoProject } from "react-icons/go";
 import api from "../axios";
+import { useAuth } from "../context/AuthContext";
 
 export default function Dashboard() {
+  const {token , user}=useAuth();
   const [stats, setStats] = useState({
     project_count: 0,
     task_count: 0
@@ -16,7 +18,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStata = async () => {
       try {
-        const token = localStorage.getItem('token');
+        // const token = localStorage.getItem('token');
         const response = await api.get('/dashboard/stats',
           {
             headers: {

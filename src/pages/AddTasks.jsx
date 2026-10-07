@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function AddTasks() {
     const [title, setTitle] = useState("");
@@ -11,6 +12,8 @@ export default function AddTasks() {
     const [dueDate, setDueDate] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
+      const {token}=useAuth();
+    
 
 
         useEffect(() => {
@@ -19,7 +22,7 @@ export default function AddTasks() {
             try {
 
 
-                const token = localStorage.getItem("token");
+                // const token = localStorage.getItem("token");
 
 
                 const response = await api.get("projects",
@@ -59,7 +62,7 @@ export default function AddTasks() {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem('token');
+            // const token = localStorage.getItem('token');
             const response = await api.post('/tasks', {
                 title: title,
                 description: description,

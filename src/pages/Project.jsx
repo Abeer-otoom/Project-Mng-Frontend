@@ -4,11 +4,14 @@ import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 export default function Projects() {
 
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { token } = useAuth();
+
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -16,7 +19,7 @@ export default function Projects() {
             try {
 
 
-                const token = localStorage.getItem("token");
+                // const token = localStorage.getItem("token");
 
 
                 const response = await api.get("projects",
@@ -57,7 +60,7 @@ export default function Projects() {
         if (!confirmDelete) return;
 
         try {
-            const token = localStorage.getItem("token");
+            // const token = localStorage.getItem("token");
 
 
             const response = await api.delete(`projects/${id}`,
@@ -67,8 +70,8 @@ export default function Projects() {
                     },
                 });
 
-                //remove the deleted fron Ui
-                setProjects(projects.filter((project)=>project.id !== id));
+            //remove the deleted fron Ui
+            setProjects(projects.filter((project) => project.id !== id));
             toast.success('Project Deleteing Succefully')
 
 
@@ -90,7 +93,7 @@ export default function Projects() {
         <DashboardLayout>
             <div className="p-6 bg-gray-50 min-h-screen">
                 <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-6">Projects</h1>
+                    <h1 className="text-2xl font-semibold text-gray-800 mb-6">Projects</h1>
 
                     <Link to="/projects/add" className="px-2 py-2 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition">
                         Add New

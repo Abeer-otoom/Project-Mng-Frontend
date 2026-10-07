@@ -3,22 +3,25 @@ import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 export default function EditProject() {
 
-    const {id}=useParams();
+    const { id } = useParams();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [dueDate, setDueDate] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
+    const { token } = useAuth();
+
 
     //fetch ptject data from backend
-    useEffect(()=>{
-        const fetchProject=async ()=>{
-            try{
-                const token=localStorage.getItem("token");
-                const response= await api.get(`/projects/${id}`, {
+    useEffect(() => {
+        const fetchProject = async () => {
+            try {
+                // const token=localStorage.getItem("token");
+                const response = await api.get(`/projects/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -30,20 +33,19 @@ export default function EditProject() {
 
 
             }
-            catch(error)
-            {
-                console.log("Error:" ,error);
-                
+            catch (error) {
+                console.log("Error:", error);
+
 
             }
-            finally{
+            finally {
 
             }
         };
 
         fetchProject();
 
-    },[id]);
+    }, [id]);
 
 
     const handleSubmit = async (e) => {
@@ -51,7 +53,7 @@ export default function EditProject() {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem('token');
+            // const token = localStorage.getItem('token');
             const response = await api.put(`/projects/${id}`, {
                 name: title,
                 description: description,
@@ -75,7 +77,7 @@ export default function EditProject() {
             console.log("Error:", error);
             // alert("Error in update projects")
             toast.error("Error in update projects")
-            
+
 
         }
         finally {
@@ -146,8 +148,8 @@ export default function EditProject() {
                                 type="submit"
                                 className="w-full bg-blue-600 text-white py-3 px-4 rounded-md shadow hover:bg-blue-700 transition"
                             >
-                                {loading ? 'Submiting...' : 'Submit' }
-                                
+                                {loading ? 'Submiting...' : 'Submit'}
+
                             </button>
                         </div>
                     </form>

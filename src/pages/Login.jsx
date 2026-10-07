@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ export default function Login() {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const naviagate = useNavigate();
+    const {login}=useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //prevent load page 
@@ -21,11 +23,11 @@ export default function Login() {
             });
 
             const token = response.data.token;
-            localStorage.setItem("token", token);
+            // localStorage.setItem("token", token);
             const user=response.data.user;
-            localStorage.setItem("user",JSON.stringify(user));
+            // localStorage.setItem("user",JSON.stringify(user));
 
-            // setMessage(response.data.message);
+            login(token , user)
             toast.success(response.data.message);
             naviagate('/dashboard')
 

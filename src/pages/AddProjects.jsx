@@ -3,6 +3,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 export default function AddProject() {
     const [title, setTitle] = useState("");
@@ -10,6 +11,8 @@ export default function AddProject() {
     const [dueDate, setDueDate] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
+      const {token}=useAuth();
+    
 
 
     const handleSubmit = async (e) => {
@@ -17,7 +20,7 @@ export default function AddProject() {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem('token');
+            // const token = localStorage.getItem('token');
             const response = await api.post('/projects', {
                 name: title,
                 description: description,

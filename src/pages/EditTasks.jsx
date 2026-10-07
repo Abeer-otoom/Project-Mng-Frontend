@@ -3,6 +3,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 export default function EditTasks() {
     const [title, setTitle] = useState("");
@@ -14,6 +15,8 @@ export default function EditTasks() {
     const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
     const {id}=useParams();
+        const { token } = useAuth();
+    
 
 
         useEffect(() => {
@@ -22,7 +25,7 @@ export default function EditTasks() {
             try {
 
 
-                const token = localStorage.getItem("token");
+                // const token = localStorage.getItem("token");
 
 
                 //fetch all project
@@ -85,7 +88,7 @@ export default function EditTasks() {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem('token');
+            // const token = localStorage.getItem('token');
             const response = await api.put(`/tasks/${id}`, {
                 title: title,
                 description: description,
