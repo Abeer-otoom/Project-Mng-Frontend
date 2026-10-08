@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
 import { toast } from "react-toastify";
+import { RegisterService } from "../services/authService";
 
 export default function Register() {
 
@@ -18,9 +19,7 @@ export default function Register() {
         setMessage("");
         try {
 
-            const response = await api.post('/register', {
-                name, email, password
-            });
+            const response =await RegisterService({ name, email, password});
             // setMessage(response.data.message);
             toast.success(response.data.message);
             naviagate('/login')

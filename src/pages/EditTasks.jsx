@@ -4,6 +4,8 @@ import api from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import { doUpdateTask, getTask } from "../services/taskService";
+import { getProject } from "../services/projectService";
 
 export default function EditTasks() {
     const [title, setTitle] = useState("");
@@ -13,13 +15,13 @@ export default function EditTasks() {
     const [description, setDescription] = useState("");
     const [dueDate, setDueDate] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate=useNavigate();
-    const {id}=useParams();
-        const { token } = useAuth();
-    
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const { token } = useAuth();
 
 
-        useEffect(() => {
+
+    useEffect(() => {
         const featchTaskAndProject = async () => {
 
             try {
@@ -29,29 +31,21 @@ export default function EditTasks() {
 
 
                 //fetch all project
-                const projectResponse = await api.get("projects",
+                // const projectResponse = await getProject(token, id);
+                 const projectResponse = await api.get("projects",
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     });
 
-                   
 
 
                 setProjects(projectResponse.data.projects);
 
                 //get task data
-                const taskReponse=await api.get(`/tasks/${id}`,
-                    {
-                          headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-
-                );
-
-
+                const taskReponse = await getTask(token, id)
+                
 
                 setTitle(taskReponse.data.title)
                 setDescription(taskReponse.data.description);
@@ -89,25 +83,17 @@ export default function EditTasks() {
 
         try {
             // const token = localStorage.getItem('token');
-            const response = await api.put(`/tasks/${id}`, {
+            const response = await doUpdateTask({
                 title: title,
                 description: description,
                 due_date: dueDate,
                 project_id: projectId,
-                status : status
+                status: status
+            }, token, id)
 
-
-
-            },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
 
             // alert("Task Add successfully");
-            toast.success("Task Add successfully")
+            toast.success("Task updated successfully")
             navigate('/tasks');
 
         }
@@ -115,7 +101,7 @@ export default function EditTasks() {
             console.log("Error:", error);
             // alert("Error in Adding projects")
             toast.error("Error in Adding projects")
-            
+
 
         }
         finally {
@@ -124,7 +110,7 @@ export default function EditTasks() {
     }
 
 
-    
+
 
 
 
@@ -134,27 +120,27 @@ export default function EditTasks() {
             <div className="p-6 bg-gray-50 min-h-screen">
                 <div className="w-full bg-white shadow-md rounded-lg p-6">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-                       Edit Task
+                        Edit Task
                     </h2>
 
                     <form className="space-y-4 w-full" onSubmit={handleSubmit}>
 
-                            {/* Project */}
+                        {/* Project */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
                                 Select Project
                             </label>
-                            <select  value={projectId}
-                            onChange={(e)=>setProjectId(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2">
+                            <select value={projectId}
+                                onChange={(e) => setProjectId(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2">
                                 <option value="">SelectOption</option>
-                                { projects.map((project)=>(
-                                      <option value={project.id} key={project.id} >{project.name}</option>
-                                  
+                                {projects.map((project) => (
+                                    <option value={project.id} key={project.id} >{project.name}</option>
+
                                 ))}
 
                             </select>
-                           
+
                         </div>
                         {/* Title */}
                         <div>
@@ -206,18 +192,18 @@ export default function EditTasks() {
                             <label className="block text-sm font-medium text-gray-700">
                                 Select Staus
                             </label>
-                            <select  value={status}
-                            onChange={(e)=>setStatus(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2">
+                            <select value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2">
                                 <option value="">SelectOption</option>
                                 <option value="pending">Pending</option>
                                 <option value="in_progress">InProgress</option>
                                 <option value="completed">Completed</option>
 
-                               
+
 
                             </select>
-                           
+
                         </div>
 
                         {/* Submit Button */}
@@ -226,8 +212,8 @@ export default function EditTasks() {
                                 type="submit"
                                 className="w-full bg-blue-600 text-white py-3 px-4 rounded-md shadow hover:bg-blue-700 transition"
                             >
-                                {loading ? 'Submiting...' : 'Submit' }
-                                
+                                {loading ? 'Submiting...' : 'Submit'}
+
                             </button>
                         </div>
                     </form>

@@ -3,6 +3,9 @@ import DashboardLayout from "../components/DashboardLayout";
 import api from "../axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { createTask } from "../services/taskService";
+import { getAllProject } from "../services/projectService";
+import { toast } from "react-toastify";
 
 export default function AddTasks() {
     const [title, setTitle] = useState("");
@@ -11,12 +14,12 @@ export default function AddTasks() {
     const [description, setDescription] = useState("");
     const [dueDate, setDueDate] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate=useNavigate();
-      const {token}=useAuth();
-    
+    const navigate = useNavigate();
+    const { token } = useAuth();
 
 
-        useEffect(() => {
+
+    useEffect(() => {
         const fetchProject = async () => {
 
             try {
@@ -25,12 +28,7 @@ export default function AddTasks() {
                 // const token = localStorage.getItem("token");
 
 
-                const response = await api.get("projects",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
+                const response = await getAllProject(token);
 
 
                 setProjects(response.data.projects);
@@ -63,7 +61,7 @@ export default function AddTasks() {
 
         try {
             // const token = localStorage.getItem('token');
-            const response = await api.post('/tasks', {
+            const response = await createTask({
                 title: title,
                 description: description,
                 due_date: dueDate,
@@ -71,26 +69,21 @@ export default function AddTasks() {
 
 
 
-            },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
+            }, token)
+
 
             // alert("Task Add successfully");
-                        toast.success("Task Add successfully")
-            
+            toast.success("Task Add successfully")
+
             navigate('/tasks');
 
         }
         catch (error) {
             console.log("Error:", error);
             // alert("Error in Adding projects")
-                        toast.error("Error in Adding projects")
+            toast.error("Error in Adding projects")
 
-            
+
 
         }
         finally {
@@ -112,22 +105,22 @@ export default function AddTasks() {
 
                     <form className="space-y-4 w-full" onSubmit={handleSubmit}>
 
-                            {/* Project */}
+                        {/* Project */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
                                 Select Project
                             </label>
-                            <select  
-                            onChange={(e)=>setProjectId(e.target.value)}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2">
+                            <select
+                                onChange={(e) => setProjectId(e.target.value)}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 p-2">
                                 <option value="">SelectOption</option>
-                                { projects.map((project)=>(
-                                      <option value={project.id} key={project.id} >{project.name}</option>
-                                  
+                                {projects.map((project) => (
+                                    <option value={project.id} key={project.id} >{project.name}</option>
+
                                 ))}
 
                             </select>
-                           
+
                         </div>
                         {/* Title */}
                         <div>
@@ -179,8 +172,8 @@ export default function AddTasks() {
                                 type="submit"
                                 className="w-full bg-blue-600 text-white py-3 px-4 rounded-md shadow hover:bg-blue-700 transition"
                             >
-                                {loading ? 'Submiting...' : 'Submit' }
-                                
+                                {loading ? 'Submiting...' : 'Submit'}
+
                             </button>
                         </div>
                     </form>

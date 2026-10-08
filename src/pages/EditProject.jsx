@@ -4,6 +4,7 @@ import api from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import { doUpdateProject, getProject } from "../services/projectService";
 
 export default function EditProject() {
 
@@ -21,11 +22,7 @@ export default function EditProject() {
         const fetchProject = async () => {
             try {
                 // const token=localStorage.getItem("token");
-                const response = await api.get(`/projects/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                const response = await getProject(token, id);
 
                 setTitle(response.data.name);
                 setDescription(response.data.description);
@@ -54,19 +51,14 @@ export default function EditProject() {
 
         try {
             // const token = localStorage.getItem('token');
-            const response = await api.put(`/projects/${id}`, {
+            const response = await doUpdateProject({
                 name: title,
                 description: description,
                 due_date: dueDate
 
 
-            },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
+            }, token, id)
+
 
             // alert("Project update successfully");
             toast.success("Project update successfully")

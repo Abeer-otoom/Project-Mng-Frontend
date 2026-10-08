@@ -9,6 +9,7 @@ import {
   FiChevronDown,
 } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
+import { logoutService } from "../services/authService";
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -32,15 +33,19 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   //Logout
-  const handleLogout = () => {
+  const handleLogout = async () => {
+
+    await logoutService(token);
+
     logout();
-
-    // localStorage.removeItem('token');
-    // localStorage.removeItem('user');
-
     navigate("/login");
+    
+    
 
   };
+
+  // localStorage.removeItem('token');
+    // localStorage.removeItem('user');
 
   return (
     <div className="flex h-screen bg-gray-100">

@@ -4,6 +4,8 @@ import api from "../axios";
 import { FaS } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { deleteTask, getAllTask } from "../services/taskService";
+import { toast } from "react-toastify";
 
 export default function Tasks() {
     const [tasks, setTasks] = useState([]);
@@ -16,11 +18,7 @@ export default function Tasks() {
             try {
 
                 // const token = localStorage.getItem('token');
-                const response = await api.get('/tasks', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                const response = await getAllTask(token)
                 setTasks(response.data)
 
 
@@ -48,21 +46,17 @@ export default function Tasks() {
 
         try {
             // const token = localStorage.getItem('token');
-            api.delete(`tasks/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            deleteTask(id,token);
 
             setTasks(tasks.filter((task) => task.id !== id));
-            alert('Task Deleteing Succefully')
+            toast.success('Task Deleteing Succefully')
 
 
         }
         catch (error) {
             console.log("error delete data", error);
 
-            alert('Something went wrong with deleting the task')
+            toast.error('Something went wrong with deleting the task')
         }
         finally {
 

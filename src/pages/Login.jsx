@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import { loginService } from "../services/authService";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -10,24 +11,25 @@ export default function Login() {
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const naviagate = useNavigate();
-    const {login}=useAuth();
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //prevent load page 
         setLoading(true);
         setMessage("");
         try {
-            const response = await api.post('/login', {
+
+            const response = await loginService({
                 email,
                 password
             });
 
             const token = response.data.token;
             // localStorage.setItem("token", token);
-            const user=response.data.user;
+            const user = response.data.user;
             // localStorage.setItem("user",JSON.stringify(user));
 
-            login(token , user)
+            login(token, user)
             toast.success(response.data.message);
             naviagate('/dashboard')
 
@@ -38,11 +40,11 @@ export default function Login() {
         } catch (error) {
             if (error.response && error.response.data.message) {
                 // setMessage(error.response.data.message);
-            toast.error(error.response.data.message);
+                toast.error(error.response.data.message);
 
             } else {
                 // setMessage("something went wrong");
-            toast.error("something went wrong");
+                toast.error("something went wrong");
 
 
             }

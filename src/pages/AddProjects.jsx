@@ -4,15 +4,16 @@ import api from "../axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import { createProject } from "../services/projectService";
 
 export default function AddProject() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [dueDate, setDueDate] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate=useNavigate();
-      const {token}=useAuth();
-    
+    const navigate = useNavigate();
+    const { token } = useAuth();
+
 
 
     const handleSubmit = async (e) => {
@@ -21,19 +22,13 @@ export default function AddProject() {
 
         try {
             // const token = localStorage.getItem('token');
-            const response = await api.post('/projects', {
+            const response = await createProject({
                 name: title,
                 description: description,
                 due_date: dueDate
 
 
-            },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
+            }, token);
 
             toast.success("Project Add successfully")
 
@@ -46,7 +41,7 @@ export default function AddProject() {
             // alert("Error in Adding projects")
             toast.error("Error in Adding projects")
 
-            
+
 
         }
         finally {
@@ -117,8 +112,8 @@ export default function AddProject() {
                                 type="submit"
                                 className="w-full bg-blue-600 text-white py-3 px-4 rounded-md shadow hover:bg-blue-700 transition"
                             >
-                                {loading ? 'Submiting...' : 'Submit' }
-                                
+                                {loading ? 'Submiting...' : 'Submit'}
+
                             </button>
                         </div>
                     </form>

@@ -5,6 +5,7 @@ import api from "../axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
+import { deleteProject, getAllProject } from "../services/projectService";
 
 export default function Projects() {
 
@@ -17,22 +18,9 @@ export default function Projects() {
         const fetchProject = async () => {
 
             try {
-
-
                 // const token = localStorage.getItem("token");
-
-
-                const response = await api.get("projects",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-
-
+                const response = await getAllProject(token);                
                 setProjects(response.data.projects);
-
-
 
             }
             catch (error) {
@@ -63,12 +51,7 @@ export default function Projects() {
             // const token = localStorage.getItem("token");
 
 
-            const response = await api.delete(`projects/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+            await deleteProject(id,token);
 
             //remove the deleted fron Ui
             setProjects(projects.filter((project) => project.id !== id));
